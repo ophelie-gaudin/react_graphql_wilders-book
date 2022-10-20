@@ -1,12 +1,14 @@
 import React, { FormEvent, useState } from "react";
 import axios from "axios";
+import { IWilder } from "../interfaces";
 
 interface IProps {
-  onWilderCreated: Function;
+  onWilderCreated: () => void; //ici, c'est une signature de fonction - pourrait être remplacé pas Function
 }
 
 const AddWilderForm = (props: IProps): JSX.Element => {
-  const [name, setName] = useState<string>("");
+  // Permet de prendre comme état une propriété de l'interface
+  const [name, setName] = useState<IWilder["name"]>("");
 
   const addWilder = async (e: FormEvent) => {
     e.preventDefault();
@@ -23,26 +25,30 @@ const AddWilderForm = (props: IProps): JSX.Element => {
   };
 
   return (
-    <form action="" onSubmit={addWilder} id="sign-up-form">
+    <>
       <br />
       <br />
-      <br />
+      <h2>Ajouter un nouveau wilder :</h2>
 
-      <label htmlFor="name">Name </label>
-      <br />
-      <input
-        type="text"
-        name="name"
-        id="name"
-        onChange={(e) => setName(e.target.value)}
-        value={name}
-      />
-      <br />
-      <div className="name error"></div>
-      <br />
+      <form action="" onSubmit={addWilder} id="sign-up-form">
+        <br />
 
-      <input type="submit" value="Ajouter un nouveau wilder" />
-    </form>
+        <label htmlFor="name">Name </label>
+        <br />
+        <input
+          type="text"
+          name="name"
+          id="name"
+          onChange={(e) => setName(e.target.value)}
+          value={name}
+        />
+        <br />
+        <div className="name error"></div>
+        <br />
+
+        <input type="submit" value="Ajouter un nouveau wilder" />
+      </form>
+    </>
   );
 };
 

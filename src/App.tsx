@@ -4,9 +4,11 @@ import axios from "axios";
 import { IWilder } from "./interfaces";
 import WilderCard from "./components/WilderCard";
 import AddWilderForm from "./components/AddWilderForm";
+import AddSkillsToWilderForm from "./components/AddSkillsToWilderForm";
 
 function App(): JSX.Element {
   const [wilders, setWilders] = useState<IWilder[]>([]);
+  const [selectedWilder, setSelectedWilder] = useState<IWilder | null>(null);
 
   const fetch = async () => {
     const wilders = await axios.get("http://localhost:5000/api/wilders");
@@ -36,10 +38,20 @@ function App(): JSX.Element {
                   name={wilder.name}
                   upvotes={wilder.upvotes}
                   id={wilder.id}
+                  onWilderDeleted={() => fetch()}
+                  onAddSkillsClicked={() => setSelectedWilder(wilder)}
                 />
               );
             })}
           </section>
+          {selectedWilder && (
+            <AddSkillsToWilderForm
+              wilder={selectedWilder}
+              onCancelClicked={() => setSelectedWilder(null)}
+              onWilderUpdated={() => fetch()}
+            />
+          )}
+
           <AddWilderForm onWilderCreated={() => fetch()} />
         </main>
         <footer>

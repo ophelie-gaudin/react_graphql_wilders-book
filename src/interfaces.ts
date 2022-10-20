@@ -14,4 +14,5 @@ export interface IWilder {
 export interface ISkill {
   id: number;
   name: string;
+  //	upvotes: IUpvote[]
 }
